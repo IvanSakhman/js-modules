@@ -7,7 +7,7 @@
 		<title>reveal.js</title>
 
 		<link rel="stylesheet" href="css/reveal.css">
-		<link rel="stylesheet" href="css/theme/black.css">
+		<link rel="stylesheet" href="css/theme/white.css">
 
 		<!-- Theme used for syntax highlighting of code -->
 		<link rel="stylesheet" href="lib/css/zenburn.css">
@@ -20,12 +20,379 @@
 			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
 			document.getElementsByTagName( 'head' )[0].appendChild( link );
 		</script>
+		<style>
+			.reveal .main-info__blue {
+				color: #010761;
+			}
+		</style>
 	</head>
 	<body>
 		<div class="reveal">
 			<div class="slides">
-				<section>Slide 1</section>
-				<section>Slide 2</section>
+				<section>
+					<h2 class="main-info__blue">Javascript</h2>
+					<h2 class="main-info__blue">Modules</h2>
+				</section>
+				<section>
+					<img src="images/negative.chapters.png" alt="books">
+				</section>
+				<section>
+					<img src="images/bad-code.png" alt="bad code">
+				</section>
+				<section>
+					<p>Good authors divide their books into
+						<br />
+						chapters and sections.</p>
+					<p>Good programmers divide their programs into modules.</p>
+				</section>
+				<section>
+					<h2 class="main-info__blue">What is Javascript modules?</h2>
+					<br>
+					<h4 class="fragment" data-fragment-index="1">Small units of independent, reusable code.</h4>
+				</section>
+				<section>
+					<section>
+						<h4 class="main-info__blue">Anonymous closure</h4>
+    <pre><code>
+(function () {
+	// ... vars and functions are in this scope only
+	// still maintains access to all globals
+}());
+    </code></pre>
+					</section>
+					<section>
+						<h4 class="main-info__blue">Hello World!</h4>
+						<pre><code>
+(function () {
+	alert("Hello World!");
+}());
+						</code></pre>
+					</section>
+					<section>
+						<h4 class="main-info__blue">Day of week</h4>
+						<pre><code>
+var dayName = function(number) {
+	var names = ["Sunday", "Monday", "Tuesday", "Wednesday",
+	"Thursday", "Friday", "Saturday"];
+
+	return names[number];
+};
+
+console.log(dayName(3));
+						</code></pre>
+					</section>
+					<section>
+						<h4 class="main-info__blue">Grades</h4>
+						<pre><code>
+var global = 'Hello, I am a global variable :)';
+
+(function () {
+  // We keep these variables private inside this closure scope
+
+  var myGrades = [85, 97, 51, 43, 74, 50];
+
+  var average = function() {
+    var total = myGrades.reduce(function(accumulator, item) {
+      return accumulator + item}, 0);
+
+    return 'Your average grade is ' + total / myGrades.length + '.';
+  }
+
+  var failing = function(){
+    var failingGrades = myGrades.filter(function(item) {
+      return item < 51;});
+
+    return 'You failed ' + failingGrades.length + ' times.';
+  }
+
+  console.log(average());
+  console.log(failing());
+  console.log(global);
+}());
+						</code></pre>
+					</section>
+				</section>
+				<section>
+					<section>
+						<h4 class="main-info__blue">Object interface</h4>
+	<pre><code>
+var functionName = (function () {
+	// Keep this variable private inside this closure scope
+	var localVariable;
+
+	return {
+		// public API
+		init: function() {
+			alert("Hi, guys!");
+		} // use , if there will be more methods
+
+		// ... more methods can be here
+}());
+
+functionName.init();
+    </code></pre>
+					</section>
+					<section>
+						<h4 class="main-info__blue">Hello World!</h4>
+						<pre><code>
+var App = (function () {
+	// privat variable
+	var name = "Peter";
+
+	// object with private API
+	return {
+		init: function() {
+			alert("Hello, " + name);
+		}
+	}
+}());
+
+App.init();
+						</code></pre>
+					</section>
+					<section>
+						<h4 class="main-info__blue">Day of week</h4>
+						<pre><code>
+var dayName = (function (number) {
+	var names = ["Sunday", "Monday", "Tuesday", "Wednesday",
+	"Thursday", "Friday", "Saturday"];
+
+	return {
+		numberOfDay: function(number) {
+						return names[number]
+						}
+	}
+})();
+
+dayName.numberOfDay();
+						</code></pre>
+					</section>
+					<section>
+						<h4 class="main-info__blue">Grades</h4>
+						<pre><code>
+var global = 'Hello, I am a global variable :)';
+
+var gradesCalculate = (function () {
+  // We keep these variables private inside this closure scope
+
+  var myGrades = [85, 97, 51, 43, 74, 50];
+
+  return {
+    average: function() {
+      var total = myGrades.reduce(function(accumulator, item) {
+        return accumulator + item;
+        });
+
+      return'Your average grade is ' + total / myGrades.length + '.';
+    },
+
+    failing: function() {
+      var failingGrades = myGrades.filter(function(item) {
+          return item < 51;
+        });
+
+      return 'You failed ' + failingGrades.length + ' times.';
+    }
+  }
+})();
+
+gradesCalculate.average();
+gradesCalculate.failing();
+						</code></pre>
+					</section>
+				</section>
+				<section>
+					<section>
+						<h4 class="main-info__blue">Revealing module pattern</h4>
+						<pre><code>
+var functionName = (function () {
+	// Keep this variable private inside this closure scope
+	var localVariable;
+
+	// initialize API
+	var alertAll = function() {
+		alert("Hi, guys!");
+	};
+
+	return {
+		// public API
+		init: alertAll
+		} // use , if there will be more methods
+
+		// ... more methods can be here
+}());
+
+functionName.init();
+    					</code></pre>
+					</section>
+					<section>
+						<h4 class="main-info__blue">Hello World!</h4>
+						<pre><code>
+var App = (function () {
+	// privat variable
+	var name = "Peter";
+
+	// initialize API
+	var alertName = function() {
+		alert("Hello, " + name);
+	};
+	// object with private API
+	return {
+		init: alertName
+	}
+}());
+
+App.init();
+						</code></pre>
+					</section>
+					<section>
+						<h4 class="main-info__blue">Grades</h4>
+						<pre><code>
+var global = 'Hello, I am a global variable :)';
+
+var gradesCalculate = (function () {
+  // We keep these variables private inside this closure scope
+
+  var myGrades = [85, 97, 51, 43, 74, 50];
+
+  var average = function() {
+    var total = myGrades.reduce(function(accumulator, item) {
+      return accumulator + item;
+      });
+
+    return'Your average grade is ' + total / myGrades.length + '.';
+  };
+
+  var failing = function() {
+    var failingGrades = myGrades.filter(function(item) {
+        return item < 51;
+      });
+
+    return 'You failed ' + failingGrades.length + ' times.';
+  };
+
+  // Explicitly reveal public pointers to the private functions
+  // that we want to reveal publicly
+
+  return {
+    average: average,
+    failing: failing
+  }
+
+})();
+
+gradesCalculate.average();
+gradesCalculate.failing();
+						</code></pre>
+					</section>
+				</section>
+				<section>
+					<h4 class="main-info__blue">CommonJS</h4>
+					<pre><code>
+function myModule() {
+	this.hello = function() {
+		return 'hello!';
+}
+
+this.goodbye = function() {
+	return 'goodbye!';
+		}
+}
+
+module.exports = myModule;
+
+
+var myModule = require('myModule');
+
+var myModuleInstance = new myModule();
+myModuleInstance.hello();
+myModuleInstance.goodbye();
+					</code></pre>
+				</section>
+				<section>
+					<h4 class="main-info__blue">Asynchronous Module Definition (AMD)</h4>
+					<pre><code>
+define([], function() {
+
+  return {
+    hello: function() {
+      console.log('hello');
+    },
+    goodbye: function() {
+      console.log('goodbye');
+    }
+  };
+});
+					</code></pre>
+				</section>
+				<section>
+					<section>
+						<h4 class="main-info__blue">ES6 (require)</h4>
+						<pre><code>
+	// lib/counter.js
+
+	var counter = 1;
+
+	function increment() {
+	  counter++;
+	}
+
+	function decrement() {
+	  counter--;
+	}
+
+	module.exports = {
+	  counter: counter,
+	  increment: increment,
+	  decrement: decrement
+	};
+
+
+	// src/main.js
+
+	var counter = require('../../lib/counter');
+
+	counter.increment();
+	console.log(counter.counter); // 1
+						</code></pre>
+					</section>
+					<section>
+						<h4 class="main-info__blue">ES6 (import & export)</h4>
+						<pre><code>
+	// lib/counter.js
+
+	var counter = 1;
+
+	function increment() {
+	  counter++;
+	}
+
+	function decrement() {
+	  counter--;
+	}
+
+	module.exports = {
+	  counter: counter,
+	  increment: increment,
+	  decrement: decrement
+	};
+
+
+	// src/main.js
+
+	var counter = require('../../lib/counter');
+
+	counter.increment();
+	console.log(counter.counter); // 1
+						</code></pre>
+					</section>
+				</section>
+				<section>
+					<img src="images/questions.jpg" alt="questions">
+				</section>
+				<section>
+					<img src="images/have-a-nice-day.jpg" alt="nice day :)">
+				</section>
 			</div>
 		</div>
 
